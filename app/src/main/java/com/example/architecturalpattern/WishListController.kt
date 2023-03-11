@@ -20,8 +20,11 @@ class WishListController(
     suspend fun getWishList(): List<Item> {
         wishView.showProgress()
         val wishList = wishListRepository.getWishList()
+        wishView.notifyWishListChanged(wishList)
         wishView.hideProgress()
         return wishList
     }
+
+    fun getWishListLog(): List<Item> = wishListRepository.wishList
 
 }

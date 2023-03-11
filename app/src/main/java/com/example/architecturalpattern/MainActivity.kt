@@ -1,6 +1,7 @@
 package com.example.architecturalpattern
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -24,26 +25,25 @@ class MainActivity : AppCompatActivity(), WishView {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-        loadWishList()
         initializeWishListRecyclerView()
+        loadWishList()
 
         binding.addButton.setOnClickListener {
-            addButtonClick()
+            onClickAddButton()
+            Log.d("++MainActivity", wishListController.getWishListLog().toString())
         }
         binding.removeButton.setOnClickListener {
-            removeButtonClick()
+            onClickRemoveButton()
         }
     }
 
-    private fun addButtonClick() {
+    private fun onClickAddButton() {
         // 이름, 가격 입력받았다고 가정
 //        wishListController.addWish(Item(name, price))
         wishListController.addItem(Item("테스트", 100))
     }
 
-    private fun removeButtonClick() {
+    private fun onClickRemoveButton() {
         wishListController.removeItem(Item("", 100))
     }
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), WishView {
     }
 
     private fun initializeWishListRecyclerView() {
-        wishListAdapter = WishListAdapter()
+        wishListAdapter = WishListAdapter(wishListController.getWishListLog())// 안되는 이유 모르겠음 notifyDataSetChanged() 동작 방법을 알아야 할듯
         binding.itemRecyclerview.apply {
             adapter = wishListAdapter
             layoutManager =

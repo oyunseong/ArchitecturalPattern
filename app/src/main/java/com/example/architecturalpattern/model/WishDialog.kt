@@ -49,7 +49,7 @@ class WishDialog(context: Context) : DialogFragment(), WishView {
 
 
     private fun initializeWishListRecyclerView() {
-        wishListAdapter = WishListAdapter()
+        wishListAdapter = WishListAdapter(listOf(Item("",1)))
         wishRecyclerView.apply {
             adapter = wishListAdapter
             wishRecyclerView.layoutManager =

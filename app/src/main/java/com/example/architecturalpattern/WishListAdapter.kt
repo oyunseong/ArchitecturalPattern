@@ -1,5 +1,6 @@
 package com.example.architecturalpattern
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.architecturalpattern.model.Item
 
 
-class WishListAdapter(private val wishList: List<Item> = emptyList()) :
+class WishListAdapter(private val wishList: List<Item>) :
     RecyclerView.Adapter<WishListAdapter.ItemViewHolder>() {
 
     // 리스트 갱신
     fun submitList(newList: List<Item>) {
+        Log.d("++Adapter", wishList.toString())
         wishList.toMutableList().apply {
             clear()
             addAll(newList)
