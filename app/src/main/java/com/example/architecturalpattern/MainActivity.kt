@@ -12,25 +12,21 @@ import com.example.architecturalpattern.model.WishListRepository
 import kotlinx.coroutines.launch
 
 
-class MainActivity : AppCompatActivity(), WishView {
+class MainActivity : AppCompatActivity(), MainContract.WishView {
     private lateinit var binding: ActivityMainBinding
-
-    private val wishListController: WishListController = WishListController(
-        wishListRepository = WishListRepository(),
-        wishView = this
-    )
+    private lateinit var presenter: MainContract.Presenter
     private lateinit var wishListAdapter: WishListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        presenter = MainPresenterImpl(this)
         initializeWishListRecyclerView()
         loadWishList()
 
         binding.addButton.setOnClickListener {
             onClickAddButton()
-            Log.d("++MainActivity", wishListController.getWishListLog().toString())
         }
         binding.removeButton.setOnClickListener {
             onClickRemoveButton()
@@ -40,11 +36,11 @@ class MainActivity : AppCompatActivity(), WishView {
     private fun onClickAddButton() {
         // 이름, 가격 입력받았다고 가정
 //        wishListController.addWish(Item(name, price))
-        wishListController.addItem(Item("테스트", 100))
+        presenter.addItem(Item("테스트", 100))
     }
 
     private fun onClickRemoveButton() {
-        wishListController.removeItem(Item("", 100))
+        presenter.removeItem(Item("", 100))
     }
 
     override fun notifyWishListChanged(wishList: List<Item>) {
@@ -60,17 +56,21 @@ class MainActivity : AppCompatActivity(), WishView {
     }
 
     private fun initializeWishListRecyclerView() {
-        wishListAdapter = WishListAdapter(wishListController.getWishListLog())// 안되는 이유 모르겠음 notifyDataSetChanged() 동작 방법을 알아야 할듯
-        binding.itemRecyclerview.apply {
-            adapter = wishListAdapter
-            layoutManager =
-                LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+        lifecycleScope.launch {
+            wishListAdapter =
+                WishListAdapter(presenter.getWishList())// 안되는 이유 모르겠음 notifyDataSetChanged() 동작 방법을 알아야 할듯
+            binding.itemRecyclerview.apply {
+                adapter = wishListAdapter
+                layoutManager =
+                    LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            }
         }
+
     }
 
     private fun loadWishList() {
         lifecycleScope.launch {
-            wishListController.getWishList()
+            presenter.getWishList()
         }
     }
 }
