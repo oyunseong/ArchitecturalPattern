@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), WishView {
     }
 
     private fun initializeWishListRecyclerView() {
-        wishListAdapter = WishListAdapter(wishListController.getWishListLog())// 안되는 이유 모르겠음 notifyDataSetChanged() 동작 방법을 알아야 할듯
+        wishListAdapter = WishListAdapter()// 안되는 이유 모르겠음 notifyDataSetChanged() 동작 방법을 알아야 할듯
         binding.itemRecyclerview.apply {
             adapter = wishListAdapter
             layoutManager =
