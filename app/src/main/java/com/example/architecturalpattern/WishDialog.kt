@@ -1,4 +1,4 @@
-package com.example.architecturalpattern.model
+package com.example.architecturalpattern
 
 import android.content.Context
 import android.os.Bundle
@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.architecturalpattern.WishListController
-import com.example.architecturalpattern.WishView
 import com.example.architecturalpattern.databinding.ActivityMainBinding
-import com.example.architecturalpattern.WishListAdapter
+import com.example.architecturalpattern.model.Item
+import com.example.architecturalpattern.model.WishListRepository
 
 class WishDialog(context: Context) : DialogFragment(), WishView {
     private val wishListController: WishListController = WishListController(
