@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity(), MainContract.WishView {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         presenter = MainPresenterImpl(this)
-        initializeWishListRecyclerView()
         loadWishList()
+        initializeWishListRecyclerView()
 
         binding.addButton.setOnClickListener {
             onClickAddButton()
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), MainContract.WishView {
     private fun initializeWishListRecyclerView() {
         lifecycleScope.launch {
             wishListAdapter =
-                WishListAdapter(presenter.getWishList())// 안되는 이유 모르겠음 notifyDataSetChanged() 동작 방법을 알아야 할듯
+                WishListAdapter()// 안되는 이유 모르겠음 notifyDataSetChanged() 동작 방법을 알아야 할듯
             binding.itemRecyclerview.apply {
                 adapter = wishListAdapter
                 layoutManager =

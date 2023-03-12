@@ -5,6 +5,10 @@ import com.example.architecturalpattern.model.WishListRepository
 
 class MainPresenterImpl(private val wishView: MainContract.WishView) : MainContract.Presenter {
     private val wishListRepository = WishListRepository()
+    override fun modifyPresenterFunction() {
+        TODO("Not yet implemented")
+    }
+
     override fun addItem(item: Item) {
         wishListRepository.addWish(item = item)
         wishView.notifyWishListChanged(wishListRepository.wishList)
