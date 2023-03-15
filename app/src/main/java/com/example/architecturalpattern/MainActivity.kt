@@ -35,11 +35,20 @@ class MainActivity : AppCompatActivity(), WishView {
         binding.removeButton.setOnClickListener {
             onClickRemoveButton()
         }
+
+        val model = WishListRepository()
+        val inputData = Item("", 0) // 입력 값
+        binding.addButton.setOnClickListener {// 1. 클릭 이벤트 발생
+            // setOnClickListener 내부는 컨트롤러 영역
+            model.addWish(inputData)    // 2. 컨트롤러가 모델에게 데이터 전송 -> 3. 이후 모델은 비즈니스 로직을 통해 데이터를 업데이트함.
+            val updatedData = model.wishList // 4. 컨트롤러는 업데이트된 데이터를 가져옴
+            wishListAdapter.submitList(updatedData)  // 5. 컨트롤러는 뷰에게 값 전달 -> adapter(view) 6. ui를 업데이트 로직 수행
+            // UI 업데이트 로직
+        }
     }
 
     private fun onClickAddButton() {
         // 이름, 가격 입력받았다고 가정
-//        wishListController.addWish(Item(name, price))
         wishListController.addItem(Item("테스트", 100))
     }
 
@@ -60,7 +69,7 @@ class MainActivity : AppCompatActivity(), WishView {
     }
 
     private fun initializeWishListRecyclerView() {
-        wishListAdapter = WishListAdapter()// 안되는 이유 모르겠음 notifyDataSetChanged() 동작 방법을 알아야 할듯
+        wishListAdapter = WishListAdapter()
         binding.itemRecyclerview.apply {
             adapter = wishListAdapter
             layoutManager =
